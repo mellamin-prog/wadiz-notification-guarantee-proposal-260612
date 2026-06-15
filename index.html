@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>와디즈 메이커를 위한 알림신청 보장 캠페인 제안서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    /* 와디즈 cyan × 버즈빌 red 시스템 */
+    --bg:#F0FBFE;          /* 페이지 배경 */
+    --bg2:#FFFFFF;
+    --bg-deep:#D6F3FA;
+    --card:#FFFFFF;
+    --card2:#E2F6FB;
+    --ink:#0E1B22;
+    --ink-strong:#06121A;
+    --muted:#516872;
+    --cyan:#00B7DB;        /* 와디즈 시그니처 시안 */
+    --cyan-deep:#007A99;
+    --cyan-light:#7DE0F0;
+    --cyan-soft:#CFF1F8;
+    --red:#EF4444;         /* 버즈빌 레드 (보조 액센트) */
+    --red-deep:#DC2626;
+    --border:rgba(0,122,153,0.16);
+    --border-soft:rgba(0,122,153,0.08);
+    --dark:#06121A;        /* 다크 슬라이드 */
+    --dark2:#0E1F2A;
+  }
+  html,body{height:100%;overflow:hidden;}
+  body{
+    font-family:'Inter','Noto Sans KR',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    word-break:keep-all;
+    overflow-wrap:break-word;
+  }
+
+  /* === 가로 스크롤 deck === */
+  .deck{
+    height:100vh;width:100vw;overflow-x:scroll;overflow-y:hidden;
+    scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    display:flex;flex-direction:row;
+  }
+  .deck::-webkit-scrollbar{height:0;display:none;}
+  .slide{
+    flex:0 0 100vw;width:100vw;height:100vh;scroll-snap-align:start;
+    position:relative;display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(3rem,5vw,5rem) clamp(2rem,6vw,6rem) clamp(3rem,5vw,4.5rem);
+    background:var(--bg);overflow:hidden;
+  }
+  .slide.alt{background:var(--bg2);}
+  .slide.soft{background:var(--card2);}
+  .slide.dark{background:var(--dark);color:#D5EEF6;}
+  .slide.dark .sub,.slide.dark .muted{color:#8FB3C0;}
+  .inner{width:100%;max-width:1320px;margin:0 auto;}
+
+  /* === Typography === */
+  .kicker{
+    font-family:'Anonymous Pro',monospace;font-size:11px;font-weight:700;
+    letter-spacing:0.22em;text-transform:uppercase;color:var(--cyan-deep);
+    margin-bottom:1.4rem;display:flex;align-items:center;gap:.7rem;
+  }
+  .slide.dark .kicker{color:var(--cyan-light);}
+  .kicker::before{content:"";width:34px;height:2px;background:var(--cyan);display:inline-block;}
+  h1{
+    font-family:'Inter','Noto Sans KR',sans-serif;font-weight:800;
+    font-size:clamp(2.4rem,4.8vw,4.2rem);line-height:1.15;letter-spacing:-0.03em;color:var(--ink-strong);
+  }
+  .slide.dark h1{color:#FFFFFF;}
+  h2{
+    font-family:'Inter','Noto Sans KR',sans-serif;font-weight:800;
+    font-size:clamp(1.7rem,3vw,2.6rem);line-height:1.28;letter-spacing:-0.02em;color:var(--ink-strong);
+  }
+  .slide.dark h2{color:#FFFFFF;}
+  h3{font-size:1.05rem;font-weight:700;color:var(--ink-strong);}
+  .slide.dark h3{color:#FFFFFF;}
+  .accent{color:var(--cyan-deep);}
+  .slide.dark .accent{color:var(--cyan-light);}
+  .rd{color:var(--red);}
+  .slide.dark .rd{color:#FB8C8C;}
+  .lead{font-size:clamp(.98rem,1.3vw,1.12rem);line-height:1.7;color:var(--ink);max-width:720px;}
+  .sub{font-size:.94rem;line-height:1.62;color:var(--muted);max-width:820px;}
+  .slide.dark .sub{color:#8FB3C0;}
+  p{line-height:1.6;}
+  .muted{color:var(--muted);font-size:.82rem;}
+
+  /* === Cover === */
+  .cover{background:linear-gradient(135deg,#06121A 0%,#0E2A37 52%,#005C75 100%);color:#fff;position:relative;}
+  .cover::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 82% 18%,rgba(0,183,219,0.32),transparent 46%),
+      radial-gradient(circle at 12% 84%,rgba(125,224,240,0.16),transparent 50%),
+      radial-gradient(circle at 60% 60%,rgba(239,68,68,0.10),transparent 50%);
+    pointer-events:none;
+  }
+  .cover .inner{position:relative;z-index:2;}
+  .cover-mark{font-weight:800;letter-spacing:.16em;color:rgba(255,255,255,0.95);font-size:1rem;text-transform:uppercase;}
+  .cover-mark .x{color:var(--red);font-weight:800;}
+  .cover h1{color:#fff;font-size:clamp(2.5rem,5.2vw,4.4rem);font-weight:800;letter-spacing:-0.03em;}
+  .cover .cover-rule{width:80px;height:3px;background:var(--cyan);margin:1.8rem 0;border-radius:2px;}
+  .cover-foot{
+    position:absolute;left:clamp(2rem,6vw,6rem);right:clamp(2rem,6vw,6rem);bottom:2.4rem;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    font-family:'Anonymous Pro',monospace;font-size:.78rem;color:rgba(255,255,255,0.78);letter-spacing:.06em;z-index:2;
+  }
+  .cover-tag{font-family:'Anonymous Pro',monospace;font-size:.78rem;letter-spacing:.22em;color:var(--cyan-light);text-transform:uppercase;display:flex;align-items:center;gap:.7rem;margin-bottom:1.4rem;}
+  .cover-tag::before{content:"";width:36px;height:2px;background:var(--cyan);display:inline-block;}
+  .cover-sub{color:rgba(255,255,255,0.88);font-size:clamp(1.02rem,1.5vw,1.18rem);line-height:1.65;max-width:820px;font-weight:400;}
+
+  /* === Layout helpers === */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+  .mt1{margin-top:.9rem;}.mt2{margin-top:1.5rem;}.mt3{margin-top:2.4rem;}
+
+  /* === Card === */
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem 1.5rem;transition:transform .25s,box-shadow .25s;}
+  .card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,122,153,0.14);}
+  .slide.dark .card{background:var(--dark2);border-color:rgba(125,224,240,0.18);}
+  .card .ico{font-family:'Anonymous Pro',monospace;font-size:.7rem;font-weight:700;letter-spacing:.14em;color:var(--cyan-deep);text-transform:uppercase;}
+  .slide.dark .card .ico{color:var(--cyan-light);}
+  .card h3{margin:.55rem 0 .5rem;}
+  .card p{font-size:.9rem;color:var(--ink);}
+  .slide.dark .card p{color:#C5DDE5;}
+
+  /* === Flow diagram === */
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:nowrap;margin-top:1.4rem;}
+  .fnode{flex:1;min-width:0;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem .75rem;text-align:center;}
+  .fnode .ft{font-family:'Anonymous Pro',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--cyan-deep);}
+  .fnode .fn{font-weight:700;font-size:.95rem;margin-top:.35rem;color:var(--ink-strong);}
+  .fnode .fd{font-size:.74rem;color:var(--muted);margin-top:.2rem;line-height:1.4;}
+  .fnode.hi{background:linear-gradient(135deg,#00B7DB,#007A99);border-color:var(--cyan-deep);color:#fff;}
+  .fnode.hi .fn{color:#fff;}.fnode.hi .ft{color:rgba(255,255,255,0.9);}.fnode.hi .fd{color:rgba(255,255,255,0.92);}
+  .farrow{display:flex;align-items:center;justify-content:center;padding:0 .35rem;color:var(--cyan);font-size:1.2rem;font-weight:700;}
+
+  /* === App icon grid image === */
+  .iconwrap{margin:1rem auto 0;border-radius:14px;overflow:hidden;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;width:fit-content;max-width:100%;max-height:55vh;}
+  .iconwrap img{display:block;height:55vh;width:auto;max-width:100%;object-fit:contain;}
+
+  /* === KakaoM mockups === */
+  .km-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:1.4rem;}
+  .km-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.2rem 1.2rem 1.4rem;display:flex;flex-direction:column;gap:.9rem;}
+  .km-screen{position:relative;width:100%;aspect-ratio:9/16;max-height:46vh;border-radius:14px;overflow:hidden;background:var(--card2);display:flex;align-items:center;justify-content:center;}
+  .km-screen img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 8px 20px rgba(0,122,153,0.16));}
+  .km-meta{display:flex;flex-direction:column;gap:.3rem;}
+  .km-label{font-family:'Anonymous Pro',monospace;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan-deep);}
+  .km-name{font-weight:800;font-size:1rem;color:var(--ink-strong);}
+  .km-desc{font-size:.78rem;color:var(--muted);line-height:1.5;}
+  .km-stats{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.3rem;}
+  .km-pill{background:rgba(0,122,153,0.08);color:var(--cyan-deep);font-family:'Anonymous Pro',monospace;font-size:.68rem;font-weight:700;padding:.25rem .55rem;border-radius:6px;}
+
+  /* === Only media icon grid === */
+  .igrid{display:grid;grid-template-columns:repeat(6,1fr);gap:.75rem;margin-top:1rem;}
+  .icell{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.8rem .4rem;text-align:center;}
+  .icell img{width:44px;height:44px;object-fit:contain;border-radius:11px;filter:drop-shadow(0 3px 6px rgba(8,17,15,.12));}
+  .icell .nm{font-size:.72rem;font-weight:600;margin-top:.45rem;color:var(--ink-strong);}
+  .icell .ct{font-size:.62rem;color:var(--muted);margin-top:.05rem;}
+
+  /* === Major media table === */
+  .mm-table{margin-top:1.5rem;border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+  .mm-row{display:grid;grid-template-columns:200px 1fr;align-items:center;background:var(--card);}
+  .mm-row+.mm-row{border-top:1px solid var(--border-soft);}
+  .mm-head{padding:1rem 1.4rem;display:flex;align-items:center;gap:.9rem;background:var(--card2);}
+  .mm-head img{width:46px;height:46px;border-radius:11px;object-fit:contain;}
+  .mm-head .nm{font-weight:800;font-size:1rem;color:var(--ink-strong);}
+  .mm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;padding:1rem 1.4rem;}
+  .mm-stat{display:flex;flex-direction:column;gap:.15rem;}
+  .mm-stat .v{font-family:'Anonymous Pro',monospace;font-weight:700;font-size:1.18rem;color:var(--cyan-deep);letter-spacing:-.01em;}
+  .mm-stat .l{font-size:.72rem;color:var(--muted);}
+
+  /* === Stats === */
+  .stat .num{font-family:'Anonymous Pro',monospace;font-weight:700;font-size:clamp(2rem,3.5vw,2.9rem);color:var(--cyan-deep);letter-spacing:-.01em;}
+  .slide.dark .stat .num{color:var(--cyan-light);}
+  .stat .lbl{font-size:.82rem;color:var(--muted);margin-top:.2rem;}
+
+  /* === AS-IS / TO-BE === */
+  .vs{display:grid;grid-template-columns:1fr auto 1fr;gap:1.3rem;align-items:stretch;margin-top:1.5rem;}
+  .vsbox{border-radius:14px;padding:1.4rem 1.3rem;}
+  .vsbox.old{background:var(--card2);border:1px solid var(--border);}
+  .vsbox.new{background:linear-gradient(135deg,#00B7DB,#007A99);border:none;color:#fff;}
+  .vsbox .vt{font-family:'Anonymous Pro',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;}
+  .vsbox.old .vt{color:var(--muted);}.vsbox.new .vt{color:rgba(255,255,255,0.92);}
+  .vsbox .vnum{font-family:'Anonymous Pro',monospace;font-weight:700;font-size:clamp(2rem,3.6vw,2.8rem);margin:.3rem 0 .3rem;}
+  .vsbox.old .vnum{color:var(--ink-strong);}.vsbox.new .vnum{color:#fff;}
+  .vsbox .vd{font-size:.84rem;}.vsbox.old .vd{color:var(--muted);}.vsbox.new .vd{color:rgba(255,255,255,0.95);}
+  .vsmid{display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:var(--cyan);font-weight:700;}
+
+  /* === Badge & pill === */
+  .badge{display:inline-flex;align-items:center;gap:.45rem;background:linear-gradient(135deg,#00B7DB,#007A99);color:#fff;font-family:'Anonymous Pro',monospace;font-size:.74rem;font-weight:700;letter-spacing:.06em;padding:.5rem .9rem;border-radius:999px;}
+  .badge.red{background:linear-gradient(135deg,#EF4444,#DC2626);}
+  .badgerow{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem;}
+  .pill{background:var(--card);border:1px solid var(--border);border-radius:999px;padding:.4rem .8rem;font-size:.76rem;font-weight:600;color:var(--ink);}
+
+  /* === List === */
+  .clist{list-style:none;margin-top:.9rem;}
+  .clist li{position:relative;padding-left:1.3rem;margin-bottom:.55rem;font-size:.9rem;line-height:1.55;color:var(--ink);}
+  .slide.dark .clist li{color:#C5DDE5;}
+  .clist li::before{content:"";position:absolute;left:0;top:.5rem;width:7px;height:7px;background:var(--cyan);border-radius:2px;}
+
+  /* === Offer box === */
+  .offer{background:linear-gradient(135deg,#06121A,#005C75);border-radius:16px;padding:1.6rem 1.7rem;color:#fff;border:1px solid rgba(0,183,219,0.32);}
+  .offer h3{color:#fff;font-size:1.05rem;}
+  .offer .oitem{display:flex;gap:.8rem;align-items:flex-start;margin-top:.9rem;}
+  .offer .ob{font-family:'Anonymous Pro',monospace;color:var(--cyan-light);font-weight:700;font-size:.85rem;flex-shrink:0;min-width:30px;}
+  .offer .ot{font-size:.86rem;color:rgba(255,255,255,0.92);line-height:1.5;}
+  .offer .ot b{color:var(--cyan-light);}
+
+  /* === Slide chrome === */
+  .slideno{position:absolute;right:clamp(1.5rem,3vw,2.5rem);bottom:1.3rem;font-family:'Anonymous Pro',monospace;font-size:.72rem;color:var(--muted);letter-spacing:.08em;}
+  .slide.dark .slideno{color:#7AA0AD;}
+  .cover .slideno{color:rgba(255,255,255,0.78);}
+  .tag{position:absolute;left:clamp(2rem,6vw,6rem);top:2rem;font-family:'Anonymous Pro',monospace;font-size:.7rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;}
+  .slide.dark .tag{color:#7AA0AD;}
+
+  /* === Nav dots === */
+  .nav{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:50;display:flex;flex-direction:row;gap:9px;}
+  .nav button{width:9px;height:9px;border-radius:50%;border:none;cursor:pointer;padding:0;background:rgba(0,122,153,.25);transition:all .25s;}
+  .nav button.on{background:var(--cyan);transform:scale(1.4);}
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--cyan);z-index:60;transition:width .2s;}
+
+  /* === Scroll cue === */
+  .scrollcue{position:absolute;right:2rem;top:50%;transform:translateY(-50%);font-family:'Anonymous Pro',monospace;font-size:.7rem;letter-spacing:.2em;color:rgba(255,255,255,0.78);display:flex;flex-direction:column;align-items:center;gap:.5rem;z-index:3;}
+  .scrollcue .ch{width:26px;height:1px;background:linear-gradient(90deg,#00B7DB,transparent);animation:cue 1.8s infinite;}
+  @keyframes cue{0%{opacity:.2;}50%{opacity:1;}100%{opacity:.2;}}
+
+  /* === Reveal === */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1);}
+  .slide.visible .reveal{opacity:1;transform:none;}
+  .slide.visible .reveal:nth-child(2){transition-delay:.08s;}
+  .slide.visible .reveal:nth-child(3){transition-delay:.16s;}
+  .slide.visible .reveal:nth-child(4){transition-delay:.24s;}
+  .slide.visible .reveal:nth-child(5){transition-delay:.32s;}
+  .slide.visible .reveal:nth-child(6){transition-delay:.4s;}
+
+  /* === 알림신청 메커니즘 다이어그램 === */
+  .mech{display:grid;grid-template-columns:1fr 50px 1fr 50px 1fr 50px 1fr;align-items:stretch;margin-top:1.6rem;gap:0;}
+  .mech-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem 1.1rem;display:flex;flex-direction:column;}
+  .mech-box .mt-stage{font-family:'Anonymous Pro',monospace;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan-deep);}
+  .mech-box .mt-title{font-weight:800;font-size:.98rem;color:var(--ink-strong);margin-top:.25rem;line-height:1.3;}
+  .mech-box .mt-desc{font-size:.74rem;color:var(--muted);line-height:1.45;margin-top:.3rem;}
+  .mech-box.hl{background:linear-gradient(150deg,#00B7DB,#007A99);border:none;color:#fff;}
+  .mech-box.hl .mt-stage{color:rgba(255,255,255,0.9);}
+  .mech-box.hl .mt-title{color:#fff;}
+  .mech-box.hl .mt-desc{color:rgba(255,255,255,0.92);}
+  .mech-arrow{display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:1.5rem;font-weight:700;}
+
+  /* === Pricing hero === */
+  .pricing{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:1.8rem;}
+  .price-card{border-radius:18px;padding:2rem 1.8rem;display:flex;flex-direction:column;justify-content:space-between;min-height:280px;position:relative;overflow:hidden;}
+  .price-card.normal{background:var(--card);border:1px solid var(--border);}
+  .price-card.promo{background:linear-gradient(150deg,#00B7DB,#005C75);color:#fff;border:none;box-shadow:0 18px 36px rgba(0,122,153,0.32);}
+  .price-card .pl{font-family:'Anonymous Pro',monospace;font-size:.72rem;letter-spacing:.14em;font-weight:700;text-transform:uppercase;}
+  .price-card.normal .pl{color:var(--muted);}
+  .price-card.promo .pl{color:rgba(255,255,255,0.85);}
+  .price-card .pn{font-family:'Anonymous Pro',monospace;font-weight:700;font-size:clamp(2.8rem,4.6vw,3.8rem);letter-spacing:-.02em;line-height:1;margin-top:.6rem;}
+  .price-card.normal .pn{color:var(--ink-strong);}
+  .price-card.promo .pn{color:#fff;}
+  .price-card .pu{font-family:'Inter',sans-serif;font-weight:700;font-size:1.1rem;margin-left:.5rem;}
+  .price-card .pd{font-size:.88rem;margin-top:1rem;line-height:1.55;}
+  .price-card.normal .pd{color:var(--muted);}
+  .price-card.promo .pd{color:rgba(255,255,255,0.92);}
+  .price-card .ptag{position:absolute;top:1.4rem;right:1.4rem;font-family:'Anonymous Pro',monospace;font-size:.66rem;font-weight:700;letter-spacing:.14em;padding:.35rem .7rem;border-radius:999px;text-transform:uppercase;}
+  .price-card.normal .ptag{background:rgba(0,122,153,0.08);color:var(--cyan-deep);}
+  .price-card.promo .ptag{background:rgba(255,255,255,0.22);color:#fff;border:1px solid rgba(255,255,255,0.3);}
+  .price-strike{position:relative;display:inline-block;color:rgba(255,255,255,0.55);text-decoration:line-through;font-size:1.4rem;margin-right:.6rem;}
+
+  /* === Budget table === */
+  .btable{margin-top:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+  .btable .bt-head{display:grid;grid-template-columns:1.2fr 1fr 1fr 1.1fr;background:var(--card2);padding:.9rem 1.4rem;font-family:'Anonymous Pro',monospace;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan-deep);}
+  .btable .bt-row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1.1fr;padding:.95rem 1.4rem;border-top:1px solid var(--border-soft);align-items:center;}
+  .btable .bt-row.hl{background:linear-gradient(90deg,rgba(0,183,219,0.10),transparent);}
+  .bt-budget{font-weight:800;color:var(--ink-strong);font-size:1rem;}
+  .bt-cells{font-family:'Anonymous Pro',monospace;font-weight:700;font-size:1.04rem;color:var(--ink-strong);}
+  .bt-promo{font-family:'Anonymous Pro',monospace;font-weight:700;font-size:1.18rem;color:var(--cyan-deep);}
+  .bt-note{font-size:.78rem;color:var(--muted);}
+
+  /* === Interaction format cards (compact) === */
+  .ix-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:1.2rem;}
+  .ix-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem;overflow:hidden;display:flex;flex-direction:column;gap:.6rem;}
+  .ix-phone{position:relative;width:100%;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 8px 22px rgba(8,17,15,0.32);border:6px solid #06121A;}
+  .ix-phone video,.ix-phone img{width:100%;height:100%;object-fit:cover;display:block;}
+  .ix-stage{font-family:'Anonymous Pro',monospace;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan-deep);}
+  .ix-name{font-weight:800;font-size:.98rem;color:var(--ink-strong);margin-top:.2rem;}
+  .ix-desc{font-size:.74rem;color:var(--muted);line-height:1.45;}
+
+  .slide.compact-ix{justify-content:flex-start;padding-top:clamp(3.8rem,5.5vh,4.8rem);padding-bottom:clamp(1.6rem,3vh,2.4rem);}
+  .slide.compact-ix .kicker{margin-bottom:.55rem;}
+  .slide.compact-ix h2{font-size:clamp(1.35rem,2.1vw,1.85rem);line-height:1.26;}
+  .slide.compact-ix .sub{font-size:.82rem;line-height:1.5;margin-top:.5rem;max-width:none;}
+  .slide.compact-ix .ix-grid{gap:.8rem;margin-top:.85rem;}
+  .slide.compact-ix .ix-card{padding:.65rem;gap:.4rem;border-radius:12px;}
+  .slide.compact-ix .ix-phone{border-width:4px;border-radius:14px;}
+  .slide.compact-ix .ix-stage{font-size:.58rem;}
+  .slide.compact-ix .ix-name{font-size:.9rem;margin-top:.1rem;}
+  .slide.compact-ix .ix-desc{font-size:.7rem;line-height:1.42;}
+
+  /* === 효과 big cards === */
+  .eff-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:1.6rem;}
+  .eff-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.6rem 1.7rem;display:flex;flex-direction:column;gap:.8rem;position:relative;overflow:hidden;}
+  .eff-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cyan);}
+  .eff-card.rd::before{background:var(--red);}
+  .eff-tag{font-family:'Anonymous Pro',monospace;font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan-deep);}
+  .eff-card.rd .eff-tag{color:var(--red);}
+  .eff-title{font-weight:800;font-size:1.2rem;color:var(--ink-strong);line-height:1.4;}
+  .eff-desc{font-size:.88rem;color:var(--ink);line-height:1.6;}
+  .eff-desc b{color:var(--cyan-deep);}
+  .eff-card.rd .eff-desc b{color:var(--red);}
+  .eff-metric{display:flex;gap:1.2rem;margin-top:.4rem;flex-wrap:wrap;}
+  .eff-metric .em{display:flex;flex-direction:column;}
+  .eff-metric .emn{font-family:'Anonymous Pro',monospace;font-weight:700;font-size:1.7rem;color:var(--cyan-deep);line-height:1;}
+  .eff-card.rd .eff-metric .emn{color:var(--red);}
+  .eff-metric .eml{font-size:.7rem;color:var(--muted);margin-top:.25rem;}
+
+  /* === Spec input cards === */
+  .spec-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.9rem;margin-top:1.3rem;}
+  .spec-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem .9rem;display:flex;flex-direction:column;gap:.4rem;}
+  .spec-card .ssn{font-family:'Anonymous Pro',monospace;font-weight:700;font-size:.66rem;letter-spacing:.1em;color:var(--cyan-deep);text-transform:uppercase;}
+  .spec-card .stt{font-weight:800;font-size:.95rem;color:var(--ink-strong);line-height:1.3;}
+  .spec-card .sdd{font-size:.74rem;color:var(--muted);line-height:1.45;}
+
+  /* === Hidden phase pill === */
+  .phase-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,122,153,0.10);color:var(--cyan-deep);font-family:'Anonymous Pro',monospace;font-size:.7rem;font-weight:700;letter-spacing:.1em;padding:.35rem .7rem;border-radius:999px;text-transform:uppercase;margin-bottom:.8rem;}
+  .phase-pill::before{content:"";width:6px;height:6px;background:var(--cyan);border-radius:50%;}
+
+  /* === Calc strip (closing) === */
+  .calc{display:flex;align-items:stretch;gap:.6rem;margin-top:1.4rem;flex-wrap:nowrap;}
+  .calc-box{background:var(--dark2);border:1px solid rgba(125,224,240,0.20);border-radius:14px;padding:1rem 1rem;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;}
+  .calc-box .cl{font-family:'Anonymous Pro',monospace;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7AA0AD;}
+  .calc-box .cv{font-family:'Anonymous Pro',monospace;font-weight:700;font-size:1.5rem;color:#fff;line-height:1.05;margin-top:.3rem;letter-spacing:-.01em;}
+  .calc-box .cs{font-size:.68rem;color:#8FB3C0;margin-top:.3rem;line-height:1.4;}
+  .calc-box.result{background:linear-gradient(150deg,rgba(0,183,219,0.32),rgba(0,122,153,0.12));border-color:var(--cyan);flex:1.35;}
+  .calc-box.result .cl{color:var(--cyan-light);}
+  .calc-box.result .cv{color:var(--cyan-light);font-size:2rem;}
+  .calc-box.result .cs{color:#C8EBF3;}
+  .calc-op{display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:1.4rem;font-weight:700;flex:0 0 auto;}
+
+  /* === edit bar === */
+  .edbar{position:fixed;left:16px;bottom:16px;z-index:90;display:flex;align-items:center;gap:7px;flex-wrap:wrap;max-width:calc(100vw - 32px);background:#FFFFFF;border:1px solid var(--border);border-radius:13px;padding:8px 10px;box-shadow:0 10px 30px rgba(8,17,15,.14);font-family:'Inter','Noto Sans KR',sans-serif;}
+  .edbar button{font-family:inherit;font-size:.76rem;font-weight:700;cursor:pointer;border-radius:8px;padding:.5rem .8rem;border:1px solid transparent;transition:.18s;white-space:nowrap;}
+  .edbtn-toggle{background:transparent;color:var(--cyan-deep);border-color:var(--border);}
+  .edbtn-toggle.on{background:var(--cyan);color:#fff;border-color:var(--cyan);}
+  .edbtn-export{background:var(--cyan-deep);color:#fff;}
+  .edbtn-reset{background:transparent;color:var(--muted);border-color:var(--border);}
+  .edbar .est{font-family:'Anonymous Pro',monospace;font-size:.66rem;color:var(--muted);padding:0 4px;min-width:118px;}
+  body.editing [data-eid]{cursor:text;}
+  body.editing [data-eid]:hover{outline:1px dashed rgba(0,183,219,.5);outline-offset:3px;}
+  body.editing [data-eid]:focus{outline:2px solid var(--cyan);outline-offset:3px;background:rgba(0,183,219,.10);}
+  @media print{.edbar,.nav,.progress{display:none!important;}}
+
+  @media (max-width:920px){
+    .mech{grid-template-columns:1fr;gap:.8rem;}
+    .mech-arrow{transform:rotate(90deg);height:32px;}
+    .eff-grid{grid-template-columns:1fr;}
+    .ix-grid{grid-template-columns:repeat(2,1fr);}
+    .pricing{grid-template-columns:1fr;}
+    .spec-grid{grid-template-columns:repeat(2,1fr);}
+    .btable .bt-head,.btable .bt-row{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<nav class="nav" id="nav"></nav>
+
+<div class="edbar" id="edbar">
+  <button class="edbtn-toggle" id="edToggle">편집 모드</button>
+  <button class="edbtn-export" id="edExport">HTML 내보내기</button>
+  <button class="edbtn-reset" id="edReset">초기화</button>
+  <span class="est" id="edStatus">편집이 자동 저장됩니다</span>
+</div>
+
+<main class="deck" id="deck">
+
+  <!-- ============ 1. 표지 ============ -->
+  <section class="slide cover">
+    <div class="inner">
+      <div class="cover-tag">PROPOSAL · 2026.06.12</div>
+      <div class="cover-mark">와디즈 <span class="x">×</span> BUZZVIL</div>
+      <div class="cover-rule"></div>
+      <h1>펀딩 오픈 알림신청을,<br/><span style="color:var(--cyan);">고정 단가</span>로 확실하게 확보합니다.</h1>
+      <p class="cover-sub mt2">와디즈 메이커를 위한 알림신청 보장 캠페인 제안서.<br/>버즈빌 협력광고 인프라 위에서 새롭게 출시되는 <b style="color:#fff;">알림신청 보장 캠페인</b>은,<br/>와디즈 활성 유저에게 리워드 광고를 노출해 고정 단가로 알림신청 모수를 빈틈없이 확보합니다.</p>
+    </div>
+    <div class="scrollcue"><span class="ch"></span>SCROLL<span class="ch"></span></div>
+    <div class="cover-foot">
+      <span>BUZZVIL Inc. · sales@buzzvil.com</span>
+      <span>01 / 12</span>
+    </div>
+  </section>
+
+  <!-- ============ 2. 메이커 현황 — 알림신청수가 펀딩 성공의 선행 지표 ============ -->
+  <section class="slide soft">
+    <span class="tag">CONTEXT · 메이커 현황</span>
+    <div class="inner">
+      <div class="kicker reveal">why pre-launch notifications matter</div>
+      <h2 class="reveal"><span class="accent">알림신청수</span>는 본펀딩 성공의<br/>가장 강력한 선행 지표입니다.</h2>
+      <p class="sub mt2 reveal">와디즈 펀딩은 <b>오픈 직후 1~3일에 거래의 약 30%가 집중</b>됩니다.<br/>오픈일 폭발을 만들어내는 핵심 동력은 <b>오픈 전에 모아둔 알림신청 모수</b>입니다.<br/>알림신청을 충분히 확보한 프로젝트는 오픈일 트래픽·전환·리워드 매진 속도가 다릅니다.</p>
+      <div class="grid3 reveal mt2">
+        <div class="card stat"><div class="num">30%+</div><div class="lbl">오픈일+1~3일에 집중되는 거래 비중</div></div>
+        <div class="card stat"><div class="num">약 7%</div><div class="lbl">와디즈 알림신청 유저의 본펀딩 구매 전환율<br/><span style="opacity:.72;font-size:.92em;">고관여 상품군 최대 16~20%</span></div></div>
+        <div class="card stat"><div class="num">사전기간</div><div class="lbl">알림신청은 오픈 전 사전기간에 분산 발생 — 미리 확보가 관건</div></div>
+      </div>
+      <p class="muted reveal mt2">* 와디즈 전체 ES 분석(2026년 1~5월, 알림신청 100건 이상 발생 펀딩 554개, 총 알림신청 유저 109,148명) 기준.<br/>알림신청은 펀딩 오픈 전에만 발생하며, 사전 모수 확보가 본펀딩 초기 매출 속도를 좌우합니다.</p>
+    </div>
+    <div class="slideno">02 / 12</div>
+  </section>
+
+  <!-- ============ 3. 솔루션 선언 — 알림신청 보장 캠페인 ============ -->
+  <section class="slide soft">
+    <span class="tag">SOLUTION · 신상품 출시</span>
+    <div class="inner">
+      <div class="kicker reveal">new · 알림신청 보장 캠페인</div>
+      <h2 class="reveal">와디즈 협력광고에 <span class="accent">새로 추가되는</span> 캠페인 목적,<br/><span class="accent">알림신청 보장 캠페인</span>.</h2>
+      <p class="sub mt2 reveal">버즈빌 광고센터에서 캠페인을 만들 때 캠페인 목적으로 "<b>알림신청 보장 캠페인</b>"을 선택하면,<br/>알림신청 1건당 단가가 사전 확정된 보장형 운영 흐름이 시작됩니다.<br/>본펀딩 구매 캠페인은 기존 정책 그대로 유지되며, <b>메이커의 KPI에 따라 둘 중 하나를 선택</b>합니다.</p>
+      <div class="grid2 reveal mt3">
+        <div class="card">
+          <div class="ico">objective 01 · 기존 유지</div>
+          <h3>본펀딩 구매 캠페인</h3>
+          <p><b>타겟팅</b> · 본펀딩 구매에 특화된 유저 (와디즈 구매 데이터·머신러닝 기반)<br/><b>과금</b> · 광고 참여(클릭) 시 과금<br/><b>적합</b> · 본펀딩 오픈 이후 구매 친화 모수에 효율적으로 도달하고 싶은 메이커</p>
+        </div>
+        <div class="card" style="border-color:var(--cyan);background:linear-gradient(160deg,rgba(0,183,219,0.10),#fff);">
+          <div class="ico" style="color:var(--cyan-deep);">objective 02 · new</div>
+          <h3>알림신청 보장 캠페인</h3>
+          <p><b>타겟팅</b> · 알림신청에 특화된 유저 (와디즈 알림신청 이력·헤비 유저 기반)<br/><b>과금</b> · <span style="color:var(--cyan-deep);">알림신청 1건당 단가 사전 확정 (보장형)</span><br/><b>적합</b> · 오픈 전 사전기간에 알림신청 모수를 정량으로 확보하고 싶은 메이커</p>
+        </div>
+      </div>
+      <p class="muted reveal mt2">* 두 캠페인 모두 와디즈 협력광고 인프라(3rd party data + 머신러닝 매칭) 위에서 작동합니다.<br/>핵심 차이는 <b>특화 타겟팅 축</b>(구매 친화 vs 알림신청 친화)과 <b>과금 트리거</b>(광고 참여 vs 알림신청 발생)입니다.</p>
+    </div>
+    <div class="slideno">03 / 12</div>
+  </section>
+
+  <!-- ============ 5. 메커니즘 — 동작 흐름 ============ -->
+  <section class="slide">
+    <span class="tag">MECHANISM · 동작 흐름</span>
+    <div class="inner">
+      <div class="kicker reveal">how it works</div>
+      <h2 class="reveal">유저가 광고에 참여하면, <span class="accent">와디즈 앱/웹 알림신청</span>으로<br/>이어지고, 그 즉시 <span class="accent">보장 카운트</span>됩니다.</h2>
+      <p class="sub mt2 reveal">버즈빌 잠금화면·인앱 지면에 광고가 노출되고, 유저는 리워드를 받기 위해 광고를 탭한 뒤<br/>와디즈로 이동해 펀딩 오픈 알림신청을 완료합니다.<br/>알림신청 이벤트가 발생하면 그 즉시 유저에게 리워드가 적립되고, 라인아이템에 컨버전이 카운트됩니다.</p>
+      <div class="mech reveal mt2">
+        <div class="mech-box">
+          <div class="mt-stage">step 01</div>
+          <div class="mt-title">광고 노출</div>
+          <div class="mt-desc">버즈빌 잠금화면·인앱 피드(500+ 매체)에서 펀딩 프로젝트 광고 노출.</div>
+        </div>
+        <div class="mech-arrow">→</div>
+        <div class="mech-box">
+          <div class="mt-stage">step 02</div>
+          <div class="mt-title">광고 참여</div>
+          <div class="mt-desc">유저가 광고를 탭하고 와디즈 앱/웹으로 이동.</div>
+        </div>
+        <div class="mech-arrow">→</div>
+        <div class="mech-box">
+          <div class="mt-stage">step 03</div>
+          <div class="mt-title">와디즈 알림신청</div>
+          <div class="mt-desc">와디즈 앱 또는 웹에서 펀딩 오픈 알림신청 완료.</div>
+        </div>
+        <div class="mech-arrow">→</div>
+        <div class="mech-box hl">
+          <div class="mt-stage">step 04 · 보장</div>
+          <div class="mt-title">컨버전 카운트<br/>· 리워드 적립</div>
+          <div class="mt-desc">알림신청 이벤트 수신 즉시 컨버전 +1, 유저에게 리워드 적립.</div>
+        </div>
+      </div>
+      <ul class="clist reveal mt3" style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1.5rem;">
+        <li><b>전환 이벤트</b>: 와디즈 웹/앱 알림신청 이벤트 (앱·웹 멀티 ES 모두 카운트)</li>
+        <li><b>참여 제한</b>: 1유저 1회 참여(재참여 불가)</li>
+        <li><b>참여수 = 알림신청수</b> 동치 처리</li>
+        <li><b>리워드 적립</b>: 알림신청 발생 시 자동 — 최대 1시간 내</li>
+      </ul>
+    </div>
+    <div class="slideno">04 / 12</div>
+  </section>
+
+  <!-- ============ 6. 소재 — 입력 5필드 ============ -->
+  <section class="slide alt">
+    <span class="tag">CREATIVE · 입력 항목</span>
+    <div class="inner">
+      <div class="kicker reveal">creative — single flow</div>
+      <h2 class="reveal">메이커는 <span class="accent">소재 5필드</span>만 입력하면 됩니다.<br/>나머지는 버즈빌이 운영합니다.</h2>
+      <p class="sub mt2 reveal">입력 항목을 최소화해, 메이커는 펀딩 콘텐츠 준비에 집중할 수 있습니다.<br/>예산·기간만 설정하면 광고세트는 곧바로 운영 가능합니다.</p>
+      <div class="spec-grid reveal mt2">
+        <div class="spec-card"><div class="ssn">creative 01</div><div class="stt">잠금화면 이미지</div><div class="sdd">버즈빌 잠금화면 지면에 노출되는 메인 이미지.</div></div>
+        <div class="spec-card"><div class="ssn">creative 02</div><div class="stt">인앱 이미지</div><div class="sdd">인앱 피드 노출용 이미지.</div></div>
+        <div class="spec-card"><div class="ssn">creative 03</div><div class="stt">로고 이미지</div><div class="sdd">메이커·브랜드 로고.</div></div>
+        <div class="spec-card"><div class="ssn">creative 04</div><div class="stt">광고 타이틀</div><div class="sdd">헤드라인 텍스트. 펀딩 후킹 카피.</div></div>
+        <div class="spec-card"><div class="ssn">creative 05</div><div class="stt">광고 설명</div><div class="sdd">본문/설명 텍스트. 알림신청 유도 카피.</div></div>
+      </div>
+      <p class="muted reveal mt2">* 소재 심사는 기존 협력광고와 동일하게 버즈빌 광고센터에서 진행됩니다. 심사 정책·플로우 변경 없음.</p>
+    </div>
+    <div class="slideno">05 / 12</div>
+  </section>
+
+  <!-- ============ 7. 와디즈 3rd party data 정밀 타겟팅 ============ -->
+  <section class="slide soft">
+    <span class="tag">WHY COOPERATION AD · 정밀 타겟팅</span>
+    <div class="inner">
+      <div class="kicker reveal">wadiz 3rd party data targeting</div>
+      <h2 class="reveal">와디즈 데이터로 <span class="accent">활성 유저</span>를 선별하고,<br/><span class="accent">리워드 인센티브</span>로 알림신청까지 이끕니다.</h2>
+      <p class="sub mt2 reveal">알림신청 보장 캠페인의 진짜 가치는 단순한 모수 확보가 아닙니다.<br/>버즈빌 협력광고 인프라는 <b>와디즈 3rd party data</b>로 펀딩에 익숙한 활성 유저를 선별해 광고를 노출하고,<br/><b>리워드 인센티브</b>로 알림신청 행동까지 자연스럽게 유도합니다. 일반 광고로는 도달할 수 없는 모수입니다.</p>
+      <div class="mech reveal mt2">
+        <div class="mech-box">
+          <div class="mt-stage">data · 와디즈 3rd party</div>
+          <div class="mt-title">와디즈 활성 유저 시그널</div>
+          <div class="mt-desc">펀딩 카테고리 관심·알림신청 이력·후원 이력 등 와디즈 내 유저 활동 데이터.</div>
+        </div>
+        <div class="mech-arrow">→</div>
+        <div class="mech-box">
+          <div class="mt-stage">targeting · 활성 유저 선별</div>
+          <div class="mt-title">와디즈에 익숙한 유저 추출</div>
+          <div class="mt-desc">와디즈 활동 신호를 기준으로 펀딩 친숙 유저 세그먼트를 정의해 광고 노출 대상으로 추출.</div>
+        </div>
+        <div class="mech-arrow">→</div>
+        <div class="mech-box hl">
+          <div class="mt-stage">action · 리워드 인센티브</div>
+          <div class="mt-title">알림신청 행동 유도</div>
+          <div class="mt-desc">선별된 활성 유저에게 리워드 광고로 노출. 리워드 인센티브가 알림신청 행동을 끌어냅니다.</div>
+        </div>
+      </div>
+      <div class="grid3 reveal mt3">
+        <div class="card">
+          <div class="ico">signal 01</div>
+          <h3>카테고리 관심 유저</h3>
+          <p>와디즈에서 동일·유사 카테고리(테크·뷰티·푸드·패션 등) 펀딩에 관심을 보인 유저. 카테고리 적합도가 활성 유저 선별의 출발선입니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico">signal 02</div>
+          <h3>펀딩 행동 이력 유저</h3>
+          <p>과거 알림신청·후원 이력이 있는 펀딩 친화 유저. 와디즈 흐름에 익숙해 리워드 광고에도 자연스럽게 알림신청으로 반응합니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico">signal 03</div>
+          <h3>와디즈 헤비 유저</h3>
+          <p>5개 이상 프로젝트에 알림신청한 헤비 유저는 전체 알림신청의 <b>67~83%</b>를 차지합니다. 가장 활성도가 높은 모수입니다.</p>
+        </div>
+      </div>
+      <p class="muted reveal mt2">* 와디즈 3rd party data는 협력광고 인프라 안에서만 활용 가능한 활성 유저 선별 신호입니다.<br/>일반 광고 매체로는 도달할 수 없는 "와디즈에 익숙한 유저"에게 리워드 광고로 알림신청을 유도합니다.</p>
+    </div>
+    <div class="slideno">06 / 12</div>
+  </section>
+
+  <!-- ============ 8. 단가 — Hero ============ -->
+  <section class="slide">
+    <span class="tag">PRICING · 단가</span>
+    <div class="inner">
+      <div class="kicker reveal">pricing — guaranteed per notification</div>
+      <h2 class="reveal"><span class="rd">2026 런칭 프로모션 25% 할인</span> 진행 중.</h2>
+      <p class="sub mt2 reveal">보장형 과금이므로 예산 대비 확보 모수가 처음부터 명확합니다.<br/>지금 시작하시면 런칭 프로모션 단가(<b>알림신청당 300원</b>)가 적용됩니다.</p>
+      <div class="pricing reveal">
+        <div class="price-card normal">
+          <span class="ptag">일반 단가</span>
+          <div>
+            <div class="pl">제안 단가</div>
+            <div class="pn">400원<span class="pu" style="color:var(--muted);">/알림신청</span></div>
+          </div>
+          <div class="pd">알림신청 1건이 발생할 때마다 400원 과금.<br/>전환 액션 = 와디즈 웹/앱 알림신청.</div>
+        </div>
+        <div class="price-card promo">
+          <span class="ptag">2026 런칭 프로모션 · 25% 할인</span>
+          <div>
+            <div class="pl">프로모션 단가</div>
+            <div class="pn"><span class="price-strike">400원</span>300원<span class="pu">/알림신청</span></div>
+          </div>
+          <div class="pd"><b style="color:#fff;">런칭 프로모션 적용 시</b> 알림신청당 300원.<br/>동일 예산으로 33% 더 많은 알림신청 확보.</div>
+        </div>
+      </div>
+      <ul class="clist reveal mt3" style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1.5rem;">
+        <li><b>과금 기준</b>: 알림신청 1건 발생당 (보장형)</li>
+        <li><b>최소 집행 금액</b>: 100만원 / 캠페인</li>
+        <li><b>알림신청 미달 시</b>: 추가 노출로 잔여 물량 보전</li>
+        <li><b>프로모션 기간</b>: 2026년 출시 초기 한정</li>
+      </ul>
+    </div>
+    <div class="slideno">07 / 12</div>
+  </section>
+
+  <!-- ============ 9. 예산 시나리오 — 견적표 ============ -->
+  <section class="slide alt">
+    <span class="tag">BUDGET · 예산 시나리오</span>
+    <div class="inner">
+      <div class="kicker reveal">budget × notifications scenarios</div>
+      <h2 class="reveal">예산 구간별로 <span class="accent">확보 가능한 알림신청 모수</span>를<br/>한눈에 비교할 수 있습니다.</h2>
+      <p class="sub mt2 reveal">아래 시나리오는 프로모션 단가(알림신청당 300원) 기준입니다.<br/>일반 단가(400원) 적용 시에는 약 25% 감소한 모수가 확보됩니다.</p>
+      <div class="btable reveal mt2">
+        <div class="bt-head">
+          <span>예산 (VAT 별도)</span>
+          <span>일반 단가 400원 기준</span>
+          <span>프로모션 300원 기준</span>
+          <span>권장 운영 시나리오</span>
+        </div>
+        <div class="bt-row">
+          <span class="bt-budget">300만원</span>
+          <span class="bt-cells">7,500건</span>
+          <span class="bt-promo">10,000건</span>
+          <span class="bt-note">소형 펀딩 · 신규 메이커 워밍업. 사전기간 2주 집중.</span>
+        </div>
+        <div class="bt-row">
+          <span class="bt-budget">500만원</span>
+          <span class="bt-cells">12,500건</span>
+          <span class="bt-promo">16,667건</span>
+          <span class="bt-note">중형 펀딩. 오픈일 거래 점프를 노리는 기본형.</span>
+        </div>
+        <div class="bt-row hl">
+          <span class="bt-budget">1,000만원</span>
+          <span class="bt-cells">25,000건</span>
+          <span class="bt-promo">33,333건</span>
+          <span class="bt-note"><b>권장</b> · 표준 펀딩 규모. 사전기간 3~4주 분산 집행.</span>
+        </div>
+        <div class="bt-row">
+          <span class="bt-budget">3,000만원</span>
+          <span class="bt-cells">75,000건</span>
+          <span class="bt-promo">100,000건</span>
+          <span class="bt-note">대형 펀딩·IP·시즌 한정. 본펀딩 초기 매진까지 견인.</span>
+        </div>
+      </div>
+      <p class="muted reveal mt2">* 위 모수는 알림신청 보장 카운트 기준 예상치이며, 실제 운영 시 단가 약속 범위 내에서 정확히 보장됩니다.<br/>* 모든 단가는 VAT 별도, 보장형 과금(알림신청 1건 발생당) 기준.</p>
+    </div>
+    <div class="slideno">08 / 12</div>
+  </section>
+
+  <!-- ============ 10. 효과 — 메이커가 얻는 것 ============ -->
+  <section class="slide">
+    <span class="tag">VALUE FOR MAKERS · 메이커가 얻는 것</span>
+    <div class="inner">
+      <div class="kicker reveal">what makers gain</div>
+      <h2 class="reveal">알림신청 보장 캠페인이 메이커에게 주는 것은 <span class="accent">두 가지</span>입니다.</h2>
+      <p class="sub mt2 reveal">하나는 사전 모수 예측의 정확성, 다른 하나는 오픈일 거래 점프의 견인력입니다.<br/>둘 다 기존 광고 상품이 보장하지 못했던 가치입니다.</p>
+      <div class="eff-grid reveal">
+        <div class="eff-card">
+          <div class="eff-tag">predictability · 사전 예측 가능성</div>
+          <div class="eff-title">"광고비 ÷ 단가 = 알림신청 모수"<br/>견적이 곧 약속입니다</div>
+          <div class="eff-desc">알림신청당 단가가 사전 확정되므로, 메이커는 <b>예산 결정 단계에서 확보할 모수를 정확히 예측</b>할 수 있습니다. 미달 시에는 추가 노출로 보장 물량을 채웁니다. 사전 KPI 수립·내부 보고가 깔끔해집니다.</div>
+          <div class="eff-metric">
+            <div class="em"><div class="emn">단가 사전 확정</div><div class="eml">알림신청당 300원/400원</div></div>
+            <div class="em"><div class="emn">잔여 보장</div><div class="eml">미달 시 추가 노출</div></div>
+          </div>
+        </div>
+        <div class="eff-card rd">
+          <div class="eff-tag">launch boost · 오픈일 거래 점프</div>
+          <div class="eff-title">사전 모수가 오픈일<br/>초기 매출 폭발을 만듭니다</div>
+          <div class="eff-desc">알림신청은 펀딩 오픈 시점에 자동 푸시로 발송됩니다. <b>오픈일+1~3일에 거래가 30%+ 집중</b>되는 와디즈 펀딩의 구조상, 사전 모수 = 오픈일 초기 거래량입니다. 알림신청 헤비 유저(전체의 67~83%)는 다수 프로젝트에 알림신청하는 구매 의향이 높은 모수입니다.</div>
+          <div class="eff-metric">
+            <div class="em"><div class="emn">오픈일 30%+</div><div class="eml">거래 집중</div></div>
+            <div class="em"><div class="emn">헤비 유저 67~83%</div><div class="eml">알림신청 모수 구성</div></div>
+          </div>
+        </div>
+      </div>
+      <p class="muted reveal mt2">* 본 캠페인은 알림신청수를 보장하는 상품이며, 본펀딩 구매 전환 자체를 보장하지는 않습니다.<br/>오픈일 거래 효과는 알림신청 모수 → 자동 푸시 → 펀딩 페이지 트래픽이라는 정성적 인과 관계에 기반합니다.</p>
+    </div>
+    <div class="slideno">09 / 12</div>
+  </section>
+
+  <!-- ============ 11. Why Buzzvil ============ -->
+  <section class="slide soft">
+    <span class="tag">WHY BUZZVIL</span>
+    <div class="inner">
+      <div class="kicker reveal">why buzzvil for wadiz makers</div>
+      <h2 class="reveal">왜 버즈빌 협력광고인가 — <span class="accent">4가지 이유</span>.</h2>
+      <p class="sub mt2 reveal">알림신청 보장 캠페인은 와디즈 데이터로 정밀 타겟팅되는 검증된 협력광고 인프라 위에서 출시됩니다.<br/>고정 단가 + 정밀 도달 + 셀프서브 운영을 한 번에 제공합니다.</p>
+      <div class="grid2 reveal mt2" style="grid-template-columns:repeat(2,1fr);">
+        <div class="card">
+          <div class="ico">reason 01 · core value</div>
+          <h3>와디즈 활성 유저 선별 + 리워드 유도</h3>
+          <p>와디즈 카테고리 관심·펀딩 이력·헤비 유저 신호로 활성 유저를 선별하고, 리워드 인센티브로 알림신청 행동까지 자연스럽게 이끕니다. 일반 광고로는 도달 불가능한 모수입니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico">reason 02 · pricing</div>
+          <h3>알림신청당 고정 단가 보장</h3>
+          <p>업계 최초의 와디즈 알림신청 보장 상품. 예산 ÷ 단가 = 확보 모수. 미달 시 추가 노출로 보전, 견적이 곧 약속입니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico">reason 03 · infrastructure</div>
+          <h3>검증된 협력광고 인프라</h3>
+          <p>40여 개 브랜드·200여 개 캠페인이 운영 중인 검증된 광고센터와 버즈빌 머신러닝 매칭 엔진을 그대로 활용합니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico">reason 04 · operation</div>
+          <h3>셀프서브 운영 + 자동 리포트</h3>
+          <p>광고센터에서 캠페인 생성·소재 등록·리포트 조회까지 메이커가 직접. 알림신청 컨버전이 실시간 카운트되어 운영 중에도 모수를 추적할 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slideno">10 / 12</div>
+  </section>
+
+  <!-- ============ 11. 추천 캠페인안 — 2단 선형 연결 ============ -->
+  <section class="slide">
+    <span class="tag">RECOMMENDED PLAN · 추천 캠페인안</span>
+    <div class="inner">
+      <div class="kicker reveal">pre-launch + main-funding linear flow</div>
+      <h2 class="reveal">사전 알림신청 보장 + 본펀딩 구매 특화,<br/>두 캠페인을 <span class="accent">선형으로 연결</span>하세요.</h2>
+      <p class="sub mt2 reveal">사전기간 <b>14일</b>은 알림신청 보장으로 오픈일 모수를 쌓고, 펀딩 오픈과 동시에 구매 특화로 전환합니다.<br/>구매 특화는 펀딩 전체 기간에 운영하되, <b>오픈일+1~3일과 마감 D-7~0에 예산을 집중</b>해 와디즈 거래 패턴(오픈일·마감일 30%+ 집중)을 정확히 짚어냅니다.</p>
+
+      <!-- Timeline -->
+      <div class="reveal" style="margin-top:1.6rem;">
+        <!-- markers above -->
+        <div style="display:grid;grid-template-columns:14fr 30fr;font-family:'Anonymous Pro',monospace;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.55rem;">
+          <div style="display:flex;justify-content:space-between;"><span>D-14</span><span style="color:var(--cyan-deep);">D-Day · 펀딩 오픈</span></div>
+          <div style="display:flex;justify-content:flex-end;"><span>D+30 · 마감</span></div>
+        </div>
+        <!-- segments -->
+        <div style="display:grid;grid-template-columns:14fr 30fr;border-radius:14px;overflow:hidden;min-height:128px;">
+          <div style="background:linear-gradient(135deg,#00B7DB,#007A99);color:#fff;padding:1.2rem 1rem;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+            <div style="font-family:'Anonymous Pro',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;opacity:.85;">사전 14일</div>
+            <div style="font-weight:800;font-size:1.08rem;margin-top:.3rem;">알림신청 보장 캠페인</div>
+            <div style="font-size:.72rem;margin-top:.35rem;opacity:.85;line-height:1.4;">14일 균등 분산 노출 · 알림신청당 300원</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#0E2A37,#06121A);color:#fff;padding:1.2rem 1rem;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+            <div style="font-family:'Anonymous Pro',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;opacity:.85;color:var(--cyan-light);">본펀딩 30일</div>
+            <div style="font-weight:800;font-size:1.08rem;margin-top:.3rem;">구매 특화 캠페인</div>
+            <div style="display:flex;justify-content:space-between;width:100%;margin-top:.6rem;gap:.6rem;">
+              <span style="background:rgba(239,68,68,0.18);color:#FFC2C2;font-family:'Anonymous Pro',monospace;font-size:.62rem;font-weight:700;letter-spacing:.08em;padding:.4rem .55rem;border-radius:6px;border:1px solid rgba(239,68,68,0.36);text-transform:uppercase;flex:1;text-align:center;">예산 집중 · D+1~3</span>
+              <span style="background:rgba(239,68,68,0.18);color:#FFC2C2;font-family:'Anonymous Pro',monospace;font-size:.62rem;font-weight:700;letter-spacing:.08em;padding:.4rem .55rem;border-radius:6px;border:1px solid rgba(239,68,68,0.36);text-transform:uppercase;flex:1;text-align:center;">예산 집중 · D-7~0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 phase cards -->
+      <div class="grid2 reveal mt3">
+        <div class="card">
+          <div class="ico">사전 14일</div>
+          <h3>알림신청 보장 캠페인</h3>
+          <p><b>운영</b> · 사전 14일 균등 분산 노출<br/>
+          <b>단가</b> · 알림신청당 300원 (프로모션) / 400원<br/>
+          <b>목표</b> · 오픈 전 알림신청 모수 1만~3만 건 확보<br/>
+          <b>효과</b> · 오픈일 자동 푸시 → 첫 24시간 트래픽 폭발</p>
+        </div>
+        <div class="card" style="border-color:var(--cyan);background:linear-gradient(160deg,rgba(0,183,219,0.10),#fff);">
+          <div class="ico" style="color:var(--cyan-deep);">본펀딩 30일</div>
+          <h3>구매 특화 캠페인</h3>
+          <p><b>운영</b> · 펀딩 전체 30일 노출 + <b>초반 3일·마감 7일에 예산 60%+ 집중</b><br/>
+          <b>과금</b> · 광고 참여(클릭) 시<br/>
+          <b>타겟팅</b> · 와디즈 구매 친화 활성 유저<br/>
+          <b>효과</b> · 오픈일 초기 거래 + 마감 막판 거래 동시 견인</p>
+        </div>
+      </div>
+
+      <p class="muted reveal mt2">* 사전 14일은 와디즈 헤비 유저(주 단위 알림 체크)의 도달 주기와 알림신청 누적 효율을 함께 고려한 권장 기간입니다. 대형 펀딩은 21일까지 확대 가능합니다.<br/>* 와디즈 펀딩 거래는 오픈일+1~3일에 약 30%, 마감 임박 D-7~0에 추가로 집중되는 두 차례 매출 폭발 패턴을 보입니다. 구매 특화 예산을 이 구간에 집중시키는 것이 ROI 측면에서 가장 효율적입니다.</p>
+    </div>
+    <div class="slideno">11 / 12</div>
+  </section>
+
+  <!-- ============ 12. 클로징 — Next Step ============ -->
+  <section class="slide dark">
+    <span class="tag">CLOSING · NEXT STEP</span>
+    <div class="inner" style="display:grid;grid-template-columns:1fr 1.02fr;gap:2.4rem;align-items:center;">
+      <div class="reveal">
+        <div class="kicker">guarantee per notification</div>
+        <h2 style="font-size:clamp(1.55rem,2.6vw,2.2rem);">사전기간이 시작되기 전,<br/>알림신청 모수를 <span class="accent">단가 보장</span>으로 미리 확정하세요.</h2>
+        <p class="sub mt2">예산만 정해주시면 알림신청 모수가 견적표로 환산됩니다.<br/>지금 시작하시면 <b style="color:var(--cyan-light);">런칭 프로모션 단가 300원/알림신청</b>이 적용됩니다.<br/>오픈일 거래 폭발을 만들어내는 사전 모수, 단가 약속으로 안정적으로 모으세요.</p>
+        <div class="calc">
+          <div class="calc-box">
+            <div class="cl">예시 예산</div>
+            <div class="cv">1,000만원</div>
+            <div class="cs">표준 펀딩 권장 규모</div>
+          </div>
+          <div class="calc-op">÷</div>
+          <div class="calc-box">
+            <div class="cl">프로모션 단가</div>
+            <div class="cv">300원</div>
+            <div class="cs">알림신청당</div>
+          </div>
+          <div class="calc-op">=</div>
+          <div class="calc-box result">
+            <div class="cl">확보 알림신청 모수</div>
+            <div class="cv">33,333건</div>
+            <div class="cs">사전 보장 + 미달 시 추가 노출</div>
+          </div>
+        </div>
+        <div style="margin-top:1.4rem;display:flex;gap:.7rem;flex-wrap:wrap;">
+          <span class="badge">알림신청당 300원 · 프로모션</span>
+          <span class="badge red">단가 사전 보장</span>
+          <span class="badge" style="background:rgba(125,224,240,0.18);color:var(--cyan-light);border:1px solid rgba(125,224,240,0.32);">최소 집행 100만원</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="offer">
+          <div class="badge" style="background:rgba(255,255,255,0.18);color:#fff;margin-bottom:.7rem;border:1px solid rgba(255,255,255,0.32);">NEXT STEP</div>
+          <h3>와디즈 × 버즈빌 — 시작 단계</h3>
+          <div class="oitem"><div class="ob">01</div><div class="ot"><b>캠페인 목적 선택</b> — 와디즈 광고센터에서 "알림신청 보장 캠페인" 선택</div></div>
+          <div class="oitem"><div class="ob">02</div><div class="ot"><b>카탈로그 · 광고세트 설정</b> — 카탈로그 선택, 기간·예산 입력. "알림신청당 300원" 자동 안내</div></div>
+          <div class="oitem"><div class="ob">03</div><div class="ot"><b>소재 5필드 등록</b> — 잠금화면/인앱/로고 이미지 + 타이틀/설명</div></div>
+          <div class="oitem"><div class="ob">04</div><div class="ot"><b>심사 → 라이브</b> — 기존 협력광고와 동일한 심사 플로우. 통과 시 자동 송출 시작</div></div>
+          <div class="oitem"><div class="ob">05</div><div class="ot"><b>리포트 조회</b> — 광고센터에서 참여수 = 알림신청수 실시간 확인</div></div>
+        </div>
+        <div style="margin-top:1.4rem;padding:1.2rem 1.4rem;background:rgba(0,183,219,0.10);border:1px solid rgba(0,183,219,0.28);border-radius:14px;">
+          <div style="font-family:'Anonymous Pro',monospace;font-size:.7rem;letter-spacing:.12em;color:var(--cyan-light);text-transform:uppercase;">CONTACT</div>
+          <h3 style="color:#fff;margin-top:.4rem;font-size:1.1rem;">킥오프부터 함께<br/>시작하겠습니다.</h3>
+          <p style="color:#C5DDE5;font-size:.85rem;margin-top:.4rem;line-height:1.55;">캠페인 일정·예산 규모·소재 가이드를 함께 정의하고, 사전기간 시작 전 라이브 일정을 맞춰드립니다.<br/><b style="color:var(--cyan-light);">sales@buzzvil.com</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="slideno">12 / 12</div>
+  </section>
+
+</main>
+
+<script>
+  // === 가로 스크롤 네비게이션 ===
+  const deck=document.getElementById('deck');
+  const slides=[...document.querySelectorAll('.slide')];
+  const nav=document.getElementById('nav');
+  const progress=document.getElementById('progress');
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.dataset.idx=i;
+    b.addEventListener('click',()=>deck.scrollTo({left:i*window.innerWidth,behavior:'smooth'}));
+    nav.appendChild(b);
+  });
+  const dots=[...nav.querySelectorAll('button')];
+  function update(){
+    const idx=Math.round(deck.scrollLeft/window.innerWidth);
+    dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
+    slides.forEach((s,i)=>s.classList.toggle('visible',i===idx));
+    const max=(slides.length-1)*window.innerWidth;
+    const pct=max>0?(deck.scrollLeft/max)*100:0;
+    progress.style.width=pct+'%';
+  }
+  deck.addEventListener('scroll',()=>{requestAnimationFrame(update);});
+  window.addEventListener('resize',update);
+  update();
+  slides[0].classList.add('visible');
+  document.addEventListener('keydown',e=>{
+    if(document.activeElement&&document.activeElement.isContentEditable)return;
+    const idx=Math.round(deck.scrollLeft/window.innerWidth);
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){
+      e.preventDefault();
+      if(idx<slides.length-1)deck.scrollTo({left:(idx+1)*window.innerWidth,behavior:'smooth'});
+    }else if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp'){
+      e.preventDefault();
+      if(idx>0)deck.scrollTo({left:(idx-1)*window.innerWidth,behavior:'smooth'});
+    }else if(e.key==='Home'){e.preventDefault();deck.scrollTo({left:0,behavior:'smooth'});}
+    else if(e.key==='End'){e.preventDefault();deck.scrollTo({left:(slides.length-1)*window.innerWidth,behavior:'smooth'});}
+  });
+  deck.addEventListener('wheel',e=>{
+    if(document.activeElement&&document.activeElement.isContentEditable)return;
+    if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){
+      e.preventDefault();
+      const idx=Math.round(deck.scrollLeft/window.innerWidth);
+      const dir=e.deltaY>0?1:-1;
+      const target=Math.max(0,Math.min(slides.length-1,idx+dir));
+      deck.scrollTo({left:target*window.innerWidth,behavior:'smooth'});
+    }
+  },{passive:false});
+</script>
+
+<script>
+(function(){
+  const EDSEL='h1,h2,h3,p,li,td,th,.num,.lbl,.vnum,.vd,.vt,.fn,.fd,.ft,.nm,.ct,.ico,.ot,.ob,.cover-mark,.kicker,.tag,.slideno,.cover-sub,.cover-tag,.km-label,.km-name,.km-desc,.km-pill,.ix-stage,.ix-name,.ix-desc,.badge,.pill,.eff-tag,.eff-title,.eff-desc,.emn,.eml,.et,.en,.ed,.cn,.cd,.mt-stage,.mt-title,.mt-desc,.ssn,.stt,.sdd,.pl,.pn,.pu,.pd,.ptag,.bt-budget,.bt-cells,.bt-promo,.bt-note,.cl,.cv,.cs,.phase-pill,.v,.l';
+  const KEY='wadiz-buzzvil-notification-260612-v1';
+  const FILENAME='와디즈_알림신청보장캠페인_260612.html';
+  const body=document.body, els=[...document.querySelectorAll(EDSEL)];
+  els.forEach((el,i)=>el.dataset.eid='e'+i);
+  let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}
+  let restored=0;
+  Object.keys(saved).forEach(eid=>{const el=document.querySelector('[data-eid="'+eid+'"]');
+    if(el&&el.innerHTML!==saved[eid]){el.innerHTML=saved[eid];restored++;}});
+  const toggleBtn=document.getElementById('edToggle'),exportBtn=document.getElementById('edExport'),
+    resetBtn=document.getElementById('edReset'),status=document.getElementById('edStatus');
+  let editing=false,t=null;
+  if(restored)status.textContent='저장된 편집 '+restored+'건 복원됨';
+  function applyEdit(on){editing=on;body.classList.toggle('editing',on);
+    toggleBtn.classList.toggle('on',on);toggleBtn.textContent=on?'편집 모드 ON':'편집 모드';
+    els.forEach(el=>on?el.setAttribute('contenteditable','true'):el.removeAttribute('contenteditable'));}
+  function save(){const d={};els.forEach(el=>d[el.dataset.eid]=el.innerHTML);
+    try{localStorage.setItem(KEY,JSON.stringify(d));
+      status.textContent='자동 저장됨 · '+new Date().toLocaleTimeString('ko-KR');}
+    catch(e){status.textContent='저장 실패 — 저장 공간 초과';}}
+  toggleBtn.addEventListener('click',()=>{applyEdit(!editing);
+    status.textContent=editing?'텍스트를 클릭해 수정하세요':'편집이 자동 저장됩니다';});
+  document.addEventListener('input',e=>{if(e.target&&e.target.dataset&&e.target.dataset.eid){
+    clearTimeout(t);t=setTimeout(save,500);}});
+  document.addEventListener('paste',e=>{const x=e.target;
+    if(!editing||!x||!x.dataset||!x.dataset.eid)return;e.preventDefault();
+    document.execCommand('insertText',false,((e.clipboardData||window.clipboardData).getData('text/plain'))||'');});
+  document.addEventListener('keydown',e=>{if(editing&&e.key==='Enter'&&!e.shiftKey&&e.target.dataset&&e.target.dataset.eid){
+    e.preventDefault();document.execCommand('insertLineBreak');}});
+  exportBtn.addEventListener('click',()=>{const w=editing;if(w)applyEdit(false);
+    const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));
+    a.download=FILENAME;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);if(w)applyEdit(true);
+    status.textContent='HTML 파일을 내보냈습니다 · '+new Date().toLocaleTimeString('ko-KR');});
+  resetBtn.addEventListener('click',()=>{if(confirm('편집 내용을 모두 초기화하고 원본으로 되돌릴까요?')){
+    localStorage.removeItem(KEY);location.reload();}});
+})();
+</script>
+
+</body>
+</html>
